@@ -1,0 +1,15 @@
+
+from django import forms
+from .models import EventRegistration
+
+
+class EventRegistrationForm(forms.ModelForm):
+    class Meta:
+        model = EventRegistration
+
+        fields = [
+            "event",
+            "full_name",
+            "email",
+            "phone",
+        ]
