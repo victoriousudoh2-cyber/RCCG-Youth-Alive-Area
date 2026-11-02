@@ -151,6 +151,7 @@ MAILERS = {
     },
 }
 
+
 CSRF_TRUSTED_ORIGINS = [
     "https://rccg-youth-alive-area-1.onrender.com",
 ]
