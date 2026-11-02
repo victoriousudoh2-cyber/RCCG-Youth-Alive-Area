@@ -13,15 +13,22 @@ def reset_admin_password(apps, schema_editor):
 
     User = apps.get_model("auth", "User")
 
-    try:
-        user = User.objects.get(username=username)
-    except User.DoesNotExist:
-        raise RuntimeError("Admin username was not found.")
+    user, created = User.objects.get_or_create(
+        username=username,
+        defaults={
+            "password": make_password(password),
+            "is_staff": True,
+            "is_superuser": True,
+            "is_active": True,
+        }
+    )
 
-    user.password = make_password(password)
-    user.is_staff = True
-    user.is_superuser = True
-    user.save()
+    if not created:
+        user.password = make_password(password)
+        user.is_staff = True
+        user.is_superuser = True
+        user.is_active = True
+        user.save()
 
 
 class Migration(migrations.Migration):
