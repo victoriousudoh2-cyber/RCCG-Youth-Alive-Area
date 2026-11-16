@@ -1,3 +1,4 @@
+
 import uuid
 from django.db import models
 from django.utils import timezone
@@ -14,22 +15,35 @@ class Event(models.Model):
 
 
 class EventRegistration(models.Model):
+    GENDER_CHOICES = [
+        ("Male", "Male"),
+        ("Female", "Female"),
+    ]
+
     event = models.ForeignKey(
         Event,
         on_delete=models.CASCADE,
         related_name="registrations"
     )
-
     full_name = models.CharField(max_length=150)
     email = models.EmailField()
     phone = models.CharField(max_length=20)
+
+    gender = models.CharField(
+        max_length=10,
+        choices=GENDER_CHOICES,
+        blank=True
+    )
+
+    is_worker = models.BooleanField(default=False)
+    is_minister = models.BooleanField(default=False)
+    is_member = models.BooleanField(default=False)
 
     registration_number = models.CharField(
         max_length=30,
         unique=True,
         blank=True
     )
-
     registered_at = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
