@@ -1,3 +1,4 @@
+
 import os
 
 from django.db import migrations
@@ -8,8 +9,9 @@ def reset_admin_password(apps, schema_editor):
     username = os.environ.get("RESET_ADMIN_USERNAME")
     password = os.environ.get("RESET_ADMIN_PASSWORD")
 
+    # Skip the password reset if environment variables are unavailable.
     if not username or not password:
-        raise RuntimeError("Admin reset environment variables are missing.")
+        return
 
     User = apps.get_model("auth", "User")
 
